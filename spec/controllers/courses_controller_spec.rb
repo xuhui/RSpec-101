@@ -66,10 +66,18 @@ RSpec.describe CoursesController, type: :controller do
   end
 
   describe "POST create" do
+
+    let(:user) { FactoryGirl.create(:user) }
+
     context "when course doesn't have a title " do
+
+      before { sign_in_user }
+
+
       it "doesn't create a record" do
         expect{ post :create, course: {:description => "bar"} }.to change{Course.count}.by(0)
       end
+
 
       it "render new template" do
         post :create, course: {:description => "bar"}
@@ -78,14 +86,16 @@ RSpec.describe CoursesController, type: :controller do
     end
 
     context "when course have a title " do
+
+      before { sign_in_user }
       it "create a new course record" do
         course = FactoryGirl.build(:course)
-        expect{ post :create, :course => FactoryGirl.attributes_for(:course)}.to change{ Course.count}.by(1)
+        expect{ post :create, course: FactoryGirl.attributes_for(:course)}.to change{ Course.count}.by(1)
       end
 
-      it "rediect to courses_path" do
+      it "redirect to courses_path" do
         course = FactoryGirl.build(:course)
-        post :create, :course => FactoryGirl.attributes_for(:course)
+        post :create, course: FactoryGirl.attributes_for(:course)
         expect(response).to redirect_to courses_path
       end
     end
