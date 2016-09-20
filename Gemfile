@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source "https://gems.ruby-china.org"
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -35,6 +35,7 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rspec-rails'
   gem 'rails-controller-testing'
+  gem 'factory_girl_rails'
 end
 
 group :development do
