@@ -39,6 +39,7 @@ RSpec.describe CoursesController, type: :controller do
     let(:user) { FactoryGirl.create(:user) }
     let(:course) { course = FactoryGirl.build(:course) }
 
+
     context "when user login " do
       before do
         sign_in user
@@ -56,11 +57,10 @@ RSpec.describe CoursesController, type: :controller do
 
     end
 
-    context "when user not login" do
-      it "redirect_to new_user_session_path" do
+    it_behaves_like "require_sign_in" do
+      let (:action) {
         get :new
-        expect(response).to redirect_to new_user_session_path
-      end
+      }
     end
 
   end
@@ -99,6 +99,15 @@ RSpec.describe CoursesController, type: :controller do
         expect(response).to redirect_to courses_path
       end
     end
+
+
+    it_behaves_like "require_sign_in" do
+      let (:action) {
+        course = FactoryGirl.build(:course)
+        post :create, course: FactoryGirl.attributes_for(:course)
+      }
+    end
+
   end
 
   describe "GET edit" do
