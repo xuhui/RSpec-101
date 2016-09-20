@@ -21,17 +21,17 @@ RSpec.describe CoursesController, type: :controller do
   end
 
   describe "GET show" do
-  it "assigns @course" do
-    course = FactoryGirl.create(:course)
-    get :show, :id => course.id
-    expect(assigns[:course]).to eq(course)
-  end
+    it "assigns @course" do
+      course = FactoryGirl.create(:course)
+      get :show, :id => course.id
+      expect(assigns[:course]).to eq(course)
+    end
 
-  it "render template" do
-    course = FactoryGirl.create(:course)
-    get :show, :id => course.id
-    expect(response).to render_template("show")
+    it "render template" do
+      course = FactoryGirl.create(:course)
+      get :show, :id => course.id
+      expect(response).to render_template("show")
+    end
   end
-end
 
 end
