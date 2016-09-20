@@ -150,4 +150,9 @@ RSpec.describe CoursesController, type: :controller do
     end
   end
 
+  describe "Homepage" do
+    it "route root path to course # index" do
+      expect(get: "/").to route_to(controller: "courses", action: "index")
+    end
+  end
 end
