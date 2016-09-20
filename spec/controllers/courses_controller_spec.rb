@@ -149,23 +149,25 @@ RSpec.describe CoursesController, type: :controller do
   end
 
   describe "PUT update" do
-    context "when course have title" do
+
+    let(:user) { FactoryGirl.create(:user) }
+    let(:course) { FactoryGirl.create(:course)}
+    before { sign_in_user }
+
+    context "when course has title" do
 
       it "assign @course" do
-        course = FactoryGirl.create(:course)
         put :update , id: course.id, course: { title: "Title", description: "Description" }
         expect(assigns[:course]).to eq(course)
       end
 
       it "changes value" do
-        course = FactoryGirl.create(:course)
         put :update , id: course.id, course: { title: "Title", description: "Description" }
         expect(assigns[:course].title).to eq("Title")
         expect(assigns[:course].description).to eq("Description")
       end
 
       it "redirect_to course_path" do
-        course = FactoryGirl.create(:course)
         put :update , id: course.id, course: { title: "Title", description: "Description" }
         expect(response).to redirect_to course_path(course)
       end
@@ -174,18 +176,22 @@ RSpec.describe CoursesController, type: :controller do
 
     context "when course doesn't have title " do
       it "doesn't update a record " do
-        course = FactoryGirl.create(:course)
         put :update , id: course.id, course: { title: "", description: "Description" }
 
         expect(course.description).not_to eq("Description")
       end
 
       it "render edit template" do
-
-        course = FactoryGirl.create(:course)
         put :update , id: course.id, course: { title: "", description: "Description" }
         expect(response).to render_template("edit")
       end
+    end
+
+
+    it_behaves_like "require_sign_in" do
+      let (:action) {
+        put :update , id: course.id, course: { title: "Title", description: "Description" }
+      }
     end
 
   end
